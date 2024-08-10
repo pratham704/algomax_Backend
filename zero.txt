@@ -1,0 +1,68 @@
+/school-crud-app
+│
+├── /config
+│   ├── config.js
+│   ├── database.js
+│   └── env/
+│       ├── development.js
+│       ├── production.js
+│       └── test.js
+│
+├── /controllers
+│   ├── studentController.js
+│   └── teacherController.js
+│
+├── /middlewares
+│   ├── authMiddleware.js
+│   ├── errorHandler.js
+│   └── validateRequest.js
+│
+├── /models
+│   ├── studentModel.js
+│   └── teacherModel.js
+│
+├── /routes
+│   ├── studentRoutes.js
+│   └── teacherRoutes.js
+│
+├── /services
+│   ├── studentService.js
+│   └── teacherService.js
+│
+├── /utils
+│   ├── dbUtils.js
+│   ├── responseUtils.js
+│   ├── logger.js
+│   └── constants.js
+│
+├── /validators
+│   ├── studentValidator.js
+│   └── teacherValidator.js
+│
+├── /views
+│   └── index.ejs
+│
+├── /tests
+│   ├── student.test.js
+│   └── teacher.test.js
+│
+├── /public
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── /docs
+│   └── api-docs.md
+│
+├── .env
+├── .gitignore
+├── app.js
+├── package.json
+└── README.md
+
+
+
+
+
+flow index.js -> routes -> controllers -> services -> models  functions
+
