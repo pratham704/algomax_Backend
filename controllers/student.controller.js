@@ -26,10 +26,10 @@ export const getStudentById = async(req, res) => {
 };
 
 
+
 export const createStudent = async(req, res) => {
     const student = req.body;
 
-    // Validate request body
     const { error } = validator.studentSchemaValidator.validate(student);
     if (error) {
         return res.status(400).json({ message: error.details[0].message }); // Bad request

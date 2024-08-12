@@ -64,5 +64,15 @@
 
 
 
-flow index.js -> routes -> controllers -> services -> models  functions
+
+{
+  "id": "6899712f-2687-487b-b806-9539febfe88b",
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTk3MTJmLTI2ODctNDg3Yi1iODA2LTk1MzlmZWJmZTg4YiIsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJmaXJzdE5hbWUiOiJKb2huIiwiaWF0IjoxNzIzNDg1OTMwLCJleHAiOjIwMzkwNjE5MzB9.lhvhgychXccVEPUrIy5zc-mn5-G1bwTWvvFLIohvZjA"
+}
+
+
+flow index.js -> routes -> controllers -> services(model interactions)
 
