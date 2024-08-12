@@ -1,26 +1,28 @@
 import express from "express";
 import * as studentController from "../controllers/student.controller.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
+import * as validate from "../middlewares/validate.middleware.js";
 
 const router = express.Router();
 
 // Create a new student
-router.post("/", studentController.createStudent);
+router.post("/", validate.validateStudentCreation, studentController.createStudent);
 
-router.use(authenticate); // from below to access any endpoint you need to have bearer 
+
+router.post("/login", validate.validateStudentLogin, studentController.loginStudent);
+
+// router.use(authenticate); // from below to access any endpoint you need to have bearer or else write authenticate for every 
 
 // Get all students
-router.get("/", studentController.getAllStudents);
+router.get("/", authenticate, studentController.getAllStudents);
 
 // Get a student by ID
-router.get("/:id", studentController.getStudentById);
-
-
+router.get("/:id", authenticate, studentController.getStudentById);
 
 // Update an existing student by ID
-router.put("/:id", studentController.updateStudent);
+router.put("/:id", authenticate, studentController.updateStudent);
 
 // Delete a student by ID
-router.delete("/:id", studentController.deleteStudent);
+router.delete("/:id", authenticate, studentController.deleteStudent);
 
 export default router;

@@ -40,3 +40,23 @@ export const studentSchemaValidator = Joi.object({
         'any.required': 'Gender is required.'
     }),
 });
+
+
+
+export const studentLoginValidator = Joi.object({
+
+
+    email: Joi.string().email().required().messages({
+        'string.base': 'Email should be a string.',
+        'string.email': 'Please enter a valid email address.',
+        'string.empty': 'Email cannot be empty.',
+        'any.required': 'Email is required.'
+    }),
+    password: Joi.string().min(8).max(20).required().messages({
+        'string.base': 'Password should be a string.',
+        'string.empty': 'Password cannot be empty.',
+        'string.min': 'Password should have at least 8 characters.',
+        'string.max': 'Password should have at most 20 characters.',
+        'any.required': 'Password is required.'
+    })
+});

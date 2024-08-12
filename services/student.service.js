@@ -1,7 +1,5 @@
 import { getConnection } from "../config/database.js";
-import * as pass from "../utils/password/bcrypt.password.js";
-import * as jwtFunction from "../utils/auth/jwt.utils.js";
-import { v4 as uuidv4 } from "uuid";
+
 
 export const createStudentTable = async() => {
     const connection = await getConnection();
@@ -57,38 +55,6 @@ export const getStudentById = async(id) => {
         return rows[0]; // Return the first row (student)
     } catch (error) {
         throw new Error("Failed to fetch student: " + error.message);
-    } finally {
-        connection.end();
-    }
-};
-
-export const createStudentService = async(student) => {
-    const connection = await getConnection();
-    try {
-        const { firstName, lastName, email, dateOfBirth, gender, password } =
-        student;
-        const hashedPassword = await pass.encryptPassword(password);
-        const studentId = uuidv4();
-        const [result] = await connection.execute(
-            "INSERT INTO students (id, firstName, lastName, email, dateOfBirth, gender, password) VALUES (?, ?, ?, ?, ?, ?, ?)", [
-                studentId,
-                firstName,
-                lastName,
-                email,
-                dateOfBirth,
-                gender,
-                hashedPassword,
-            ]
-        );
-
-        const token = jwtFunction.generateToken({ id: studentId, email, firstName });
-        return { id: studentId, firstName, lastName, email, token };
-    } catch (error) {
-        if (error.code === "ER_DUP_ENTRY") {
-            throw new Error("A student with this email already exists.");
-        } else {
-            throw new Error("Failed to create student: " + error.message);
-        }
     } finally {
         connection.end();
     }
