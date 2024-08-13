@@ -116,7 +116,7 @@ This Node.js project follows a modular architecture to facilitate scalability an
    nodemon server.js
    ```
  
-8. **For Vertical Scaling:**
+8. **create a .env file**
 
     ```bash
     NODE_ENV=development
