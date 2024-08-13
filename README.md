@@ -74,6 +74,7 @@ This Node.js project follows a modular architecture to facilitate scalability an
    ```bash
    git clone https://github.com/pratham704/starter-mysql2.git
    cd starter-mysql2
+   git remote remove origin
    ```
 
 2. **Remove the package.json and package-lock.json:**
@@ -106,22 +107,8 @@ This Node.js project follows a modular architecture to facilitate scalability an
    ```bash
    npm i bcrypt bcryptjs cookie-parser cors dotenv express express-rate-limit helmet joi jsonwebtoken mysql mysql2 nodemon uuid
    ```
-
-6. **Start the server:**
-
-   ```bash
-   npm start
-   npm run dev
-   nodemon index.js
-   ```
-
-7. **For Vertical Scaling:**
-
-   ```bash
-   nodemon server.js
-   ```
- 
-8. **create a .env file**
+    
+6. **create a .env file**
 
     ```bash
     NODE_ENV=development
@@ -151,7 +138,7 @@ This Node.js project follows a modular architecture to facilitate scalability an
     ALLOWED_ORIGINS=http://example.com,http://anotherdomain.com,http://localhost:3000,http://localhost:5000,http://localhost:3001,http://localhost:4000
     ```
      
-8. **create a .env file for default database**
+7. **create a .env file for default database**
 
     ```bash
 
@@ -188,3 +175,16 @@ This Node.js project follows a modular architecture to facilitate scalability an
 
     ```
     
+8. **Start the server:**
+
+   ```bash
+   npm start
+   npm run dev
+   nodemon index.js
+   ```
+
+7. **For Vertical Scaling:**
+
+   ```bash
+   nodemon server.js
+   ```
