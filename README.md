@@ -75,11 +75,49 @@ This Node.js project follows a modular architecture to facilitate scalability an
    git clone <repository-url>
    cd <repository-directory>
 
-   ### Step 1: Update `package.json`
 
-Add the following line to your `package.json` file:
+2. **Remove the package.json and package-lock.json**
 
-```json
+   ```bash
+ rm package.json package-lock.json
+
+
+
+3. **Create new package.json **
+
+   ```bash
+ npm init -y
+
+
+
+ 4. **Use ES6 syntax , Add the following line to your `package.json` file**
+
+   ```bash
 {
   "type": "module"
-}
+} 
+
+
+
+ 5. **Install new packages**
+
+   ```bash
+ npm i bcrypt bcryptjs cookie-parser cors dotenv express express-rate-limit helmet joi jsonwebtoken mysql mysql2 nodemon uuid
+
+ 5. **Start the server**
+
+   ```bash
+   npm start 
+   npm run dev 
+   nodemon index.js
+
+
+ 6. **For Vertical Scaling**
+
+   ```bash
+    nodemon server.js
+
+   
+
+
+
