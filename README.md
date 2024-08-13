@@ -72,8 +72,8 @@ This Node.js project follows a modular architecture to facilitate scalability an
 1. **Clone the Repository:**
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/pratham704/starter-mysql2.git
+   cd starter-mysql2
    ```
 
 2. **Remove the package.json and package-lock.json:**
@@ -116,7 +116,3 @@ This Node.js project follows a modular architecture to facilitate scalability an
    nodemon server.js
    ```
 
-```bash
-  npm install my-project
-  cd my-project
-```
