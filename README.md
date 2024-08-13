@@ -76,25 +76,17 @@ This Node.js project follows a modular architecture to facilitate scalability an
    cd <repository-directory>
 
 ```
-
 2. **Remove the package.json and package-lock.json**
 
    ```bash
  rm package.json package-lock.json
 ```
-
-
-
-
 3. **Create new package.json **
 
    ```bash
  npm init -y
 
  ```
-
-
-
  4. **Use ES6 syntax , Add the following line to your `package.json` file**
 
    ```json
