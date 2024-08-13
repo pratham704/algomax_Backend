@@ -113,3 +113,10 @@ ALLOWED_ORIGINS=http://example.com,http://anotherdomain.com,http://localhost:300
 
 flow index.js -> routes -> middlewares(auth or validations  then next()) -> controllers -> services(model interactions) -> errors or obj responses during runtime in db , categoriase and send status and error code or succest code and message and then -> controllers -> use responses utils ->
 
+start by commands 
+
+npm init -y
+in package.json add "type":"module" for es 6 
+then start by nodemon index.js or nodemon server.js (for vertical scalling appplications only)
+
+npm i bcrypt bcryptjs cookie-parser cors dotenv express express-rate-limit helmet joi jsonwebtoken mysql mysql2 nodemon uuid
