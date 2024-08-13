@@ -97,7 +97,7 @@ This Node.js project follows a modular architecture to facilitate scalability an
 
  4. **Use ES6 syntax , Add the following line to your `package.json` file**
 
-   ```bash
+   ```json
 {
   "type": "module"
 } 
