@@ -116,7 +116,7 @@ This Node.js project follows a modular architecture to facilitate scalability an
    nodemon server.js
    ```
    
-8. **Create a .env**
+8. **Create a .env
 
    ```bash
 NODE_ENV=development
@@ -145,5 +145,5 @@ JWT_SECRET_KEY_TEST=testsecretkey
 
 ALLOWED_ORIGINS=http://example.com,http://anotherdomain.com,http://localhost:3000,http://localhost:5000,http://localhost:3001,http://localhost:4000
 
-   ```
+
 
