@@ -76,9 +76,56 @@ This Node.js project follows a modular architecture to facilitate scalability an
    cd <repository-directory>
 
 ```
+## Setup and Installation
 
+
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
 2. **Remove the package.json and package-lock.json:**
+
+   ```bash
+   rm package.json package-lock.json
+   ```
+
+3. **Create new package.json:**
+
+   ```bash
+   npm init -y
+   ```
+
+4. **Use ES6 syntax, add the following line to your [`package.json`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2Fprath%2FOneDrive%2FDesktop%2Fstarter%2Fpackage.json%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%5D "c:\Users\prath\OneDrive\Desktop\starter\package.json") file:**
+
+   ```json
+   {
+     "type": "module"
+   }
+   ```
+
+5. **Install new packages:**
+
+   ```bash
+   npm i bcrypt bcryptjs cookie-parser cors dotenv express express-rate-limit helmet joi jsonwebtoken mysql mysql2 nodemon uuid
+   ```
+
+6. **Start the server:**
+
+   ```bash
+   npm start
+   npm run dev
+   nodemon index.js
+   ```
+
+7. **For Vertical Scaling:**
+
+   ```bash
+   nodemon server.js
+   ```
 
 ```bash
   npm install my-project
