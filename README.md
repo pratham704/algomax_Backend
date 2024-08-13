@@ -79,7 +79,7 @@ This Node.js project follows a modular architecture to facilitate scalability an
 2. **Remove the package.json and package-lock.json:**
 
    ```bash
-   rm package.json package-lock.json
+   Remove-Item package.json, package-lock.json
    ```
 
 3. **Create new package.json:**
@@ -91,9 +91,14 @@ This Node.js project follows a modular architecture to facilitate scalability an
 4. **Use ES6 syntax, add the following line to your [`package.json`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fc%3A%2FUsers%2Fprath%2FOneDrive%2FDesktop%2Fstarter%2Fpackage.json%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%5D "c:\Users\prath\OneDrive\Desktop\starter\package.json") file:**
 
    ```json
-   {
-     "type": "module"
-   }
+   
+     "type": "module" , 
+     "scripts": {
+        "start": "nodemon index.js",
+        "dev": "nodemon index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+   
    ```
 
 5. **Install new packages:**
