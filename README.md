@@ -75,12 +75,14 @@ This Node.js project follows a modular architecture to facilitate scalability an
    git clone <repository-url>
    cd <repository-directory>
 
+```
 
 2. **Remove the package.json and package-lock.json**
 
    ```bash
  rm package.json package-lock.json
- ```bash
+
+
 
 
 
