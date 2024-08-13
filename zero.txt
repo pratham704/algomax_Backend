@@ -1,78 +1,115 @@
-/school-crud-app
+config/
 │
-├── /config
-│   ├── config.js
-│   ├── database.js
-│   └── env/
-│       ├── development.js
-│       ├── production.js
-│       └── test.js
+├── env/
+│   ├── development.js
+│   ├── production.js
+│   ├── test.js
 │
-├── /controllers
-│   ├── studentController.js
-│   └── teacherController.js
+├── config.js
+├── constants.js
+└── database.js
 │
-├── /middlewares
-│   ├── authMiddleware.js
-│   ├── errorHandler.js
-│   └── validateRequest.js
+controllers/
 │
-├── /models
-│   ├── studentModel.js
-│   └── teacherModel.js
+├── auth/
+│   ├── auth.student.controller.js
 │
-├── /routes
-│   ├── studentRoutes.js
-│   └── teacherRoutes.js
+├── student.controller.js
 │
-├── /services
-│   ├── studentService.js
-│   └── teacherService.js
+middlewares/
 │
-├── /utils
-│   ├── dbUtils.js
-│   ├── responseUtils.js
-│   ├── logger.js
-│   └── constants.js
+├── auth.middleware.js
+├── errorHandlers.js
+└── validate.middleware.js
 │
-├── /validators
-│   ├── studentValidator.js
-│   └── teacherValidator.js
+models/
 │
-├── /views
-│   └── index.ejs
+├── student.model.js
+└── teacher.model.js
 │
-├── /tests
-│   ├── student.test.js
-│   └── teacher.test.js
+node_modules/
 │
-├── /public
-│   ├── css/
-│   ├── js/
-│   └── images/
+routes/
 │
-├── /docs
-│   └── api-docs.md
+└── student.routes.js
 │
-├── .env
-├── .gitignore
-├── app.js
-├── package.json
-└── README.md
+services/
+│
+├── auth.service/
+│   ├── auth.service.student.js
+│
+├── student.service.js
+├── teacher.service.js
+└── z.create.table.query.js
+│
+tests/
+│
+utils/
+│
+├── auth/
+│   ├── bcrypt.password.js
+│   ├── jwt.utils.js
+│
+├── responses/
+│   ├── mysql.ErrorMap.js
+│   ├── responses.js
+│   └── status.messages.js
+│
+validators/
+│
+└── student.validator.js
+│
+.env
+.gitignore
+env.load.js
+index.js
+nodemon.json
+package-lock.json
+package.json
+README.md
+server.js
+zero.txt
+
+
+.env file content
+
+# Define phase
+NODE_ENV=development
+
+# Development phase
+DEV_PORT=4000
+DEV_DB_HOST=localhost
+DEV_DB_USER=devuser
+DEV_DB_NAME=devdb
+DEV_DB_PASS=devpassword
+
+# Production phase
+PROD_PORT=80
+PROD_DB_HOST=prod-db-host
+PROD_DB_USER=prod-user
+PROD_DB_NAME=prod-db
+PROD_DB_PASS=prod-password
+
+# Testing phase
+TEST_PORT=3001
+TEST_DB_HOST=localhost
+TEST_DB_USER=testuser
+TEST_DB_NAME=testdb
+TEST_DB_PASS=testpassword
+
+# JWT Tokens
+JWT_SECRET_KEY_DEV=devsecretkey
+JWT_SECRET_KEY_PROD=prodsecretkey
+JWT_SECRET_KEY_TEST=testsecretkey
+
+# For CORS
+ALLOWED_ORIGINS=http://example.com,http://anotherdomain.com,http://localhost:3000,http://localhost:5000,http://localhost:3001,http://localhost:4000
 
 
 
+ ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-{
-  "id": "6899712f-2687-487b-b806-9539febfe88b",
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTk3MTJmLTI2ODctNDg3Yi1iODA2LTk1MzlmZWJmZTg4YiIsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJmaXJzdE5hbWUiOiJKb2huIiwiaWF0IjoxNzIzNDg1OTMwLCJleHAiOjIwMzkwNjE5MzB9.lhvhgychXccVEPUrIy5zc-mn5-G1bwTWvvFLIohvZjA"
-}
-
-
-flow index.js -> routes -> controllers -> services(model interactions)
+flow index.js -> routes -> middlewares(auth or validations  then next()) -> controllers -> services(model interactions) -> errors or obj responses during runtime in db , categoriase and send status and error code or succest code and message and then -> controllers -> use responses utils ->
 
