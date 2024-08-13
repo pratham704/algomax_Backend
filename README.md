@@ -76,11 +76,15 @@ This Node.js project follows a modular architecture to facilitate scalability an
    cd <repository-directory>
 
 ```
-2. **Remove the package.json and package-lock.json**
 
-   ```bash
- rm package.json package-lock.json
+
+2. **Remove the package.json and package-lock.json:**
+
+```bash
+  npm install my-project
+  cd my-project
 ```
+
 3. **Create new package.json **
 
    ```bash
