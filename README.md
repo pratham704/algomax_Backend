@@ -145,4 +145,41 @@ This Node.js project follows a modular architecture to facilitate scalability an
 
     ALLOWED_ORIGINS=http://example.com,http://anotherdomain.com,http://localhost:3000,http://localhost:5000,http://localhost:3001,http://localhost:4000
     ```
+     
+8. **create a .env file for default database**
+
+    ```bash
+
+    NODE_ENV=development
+
+
+    DEV_PORT=4000
+    DEV_DB_HOST=bsneomlilzgcpnbqeaju-mysql.services.clever-cloud.com
+    DEV_DB_USER=uhx3ri0qwulst6u3
+    DEV_DB_NAME=bsneomlilzgcpnbqeaju
+    DEV_DB_PASS=tH96trj2PTtMlsoDyLiF
+
+    PROD_PORT=80
+    PROD_DB_HOST=your-production-db-host
+    PROD_DB_USER=your-production-db-user
+    PROD_DB_NAME=your-production-db-name
+    PROD_DB_PASS=your-production-db-password
+
+    TEST_PORT=3001
+    TEST_DB_HOST=your-test-db-host
+    TEST_DB_USER=your-test-db-user
+    TEST_DB_NAME=your-test-db-name
+    TEST_DB_PASS=your-test-db-password
+
+
+
+    JWT_SECRET_KEY_DEV=pratham
+    JWT_SECRET_KEY_PROD=pratham
+    JWT_SECRET_KEY_TEST=pratham
+
+
+    ALLOWED_ORIGINS=http://example.com,http://anotherdomain.com,http://localhost:3000,http://localhost:5000,http://localhost:3001,http://localhost:4000
+
+
+    ```
     

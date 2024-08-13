@@ -120,3 +120,8 @@ in package.json add "type":"module" for es 6
 then start by nodemon index.js or nodemon server.js (for vertical scalling appplications only)
 
 npm i bcrypt bcryptjs cookie-parser cors dotenv express express-rate-limit helmet joi jsonwebtoken mysql mysql2 nodemon uuid
+
+
+
+
+
