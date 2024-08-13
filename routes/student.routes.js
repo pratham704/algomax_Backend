@@ -1,15 +1,16 @@
 import express from "express";
 import * as studentController from "../controllers/student.controller.js";
+import * as authStudent from "../controllers/auth/auth.student.controller.js"
 import { authenticate } from "../middlewares/auth.middleware.js";
 import * as validate from "../middlewares/validate.middleware.js";
 
 const router = express.Router();
 
 // Create a new student
-router.post("/", validate.validateStudentCreation, studentController.createStudent);
+router.post("/", validate.validateStudentCreation, authStudent.createStudent);
 
 
-router.post("/login", validate.validateStudentLogin, studentController.loginStudent);
+router.post("/login", validate.validateStudentLogin, authStudent.loginStudent);
 
 // router.use(authenticate); // from below to access any endpoint you need to have bearer or else write authenticate for every 
 

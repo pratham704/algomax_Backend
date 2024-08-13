@@ -1,5 +1,5 @@
 import { verifyToken } from "../utils/auth/jwt.utils.js";
-import { success_response, fail_response } from "../utils/responses/responses.js";
+import { fail_response } from "../utils/responses/responses.js";
 
 export const authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;

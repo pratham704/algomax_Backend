@@ -1,18 +1,33 @@
 import express from "express";
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
+import helmet from "helmet";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 import studentRoutes from "./routes/student.routes.js";
-import { getConnection } from "./config/database.js";
-// dotenv.config();
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
-// Use the routes with a versioned prefix
+app.use(helmet());
+
+app.use(cors({
+    origin: process.env.ALLOWED_ORIGINS || '*',
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100
+});
+app.use(limiter);
+
+
 app.use("/api/v1/students", studentRoutes);
 
-// Default route
+
 app.get('/', (req, res) => {
     res.send('Welcome to the School CRUD API');
 });
@@ -25,17 +40,6 @@ const port = process.env.NODE_ENV === 'production' ?
     process.env.DEV_PORT;
 
 
-const setupDatabase = async() => {
-    try {
-        const connection = await getConnection(); // Establish the connection
-        console.log('Database connection established.');
-        connection.end(); // Close the connection
-    } catch (error) {
-        console.error('Error during database setup:', error.message);
-    }
-};
-
-setupDatabase();
 
 app.listen(port, () => {
     console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${port}`);
