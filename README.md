@@ -119,37 +119,30 @@ This Node.js project follows a modular architecture to facilitate scalability an
 8. **Create a .env**
 
    ```bash
-
-# Define phase
 NODE_ENV=development
 
-# Development phase
 DEV_PORT=4000
 DEV_DB_HOST=localhost
 DEV_DB_USER=devuser
 DEV_DB_NAME=devdb
 DEV_DB_PASS=devpassword
 
-# Production phase
 PROD_PORT=80
 PROD_DB_HOST=prod-db-host
 PROD_DB_USER=prod-user
 PROD_DB_NAME=prod-db
 PROD_DB_PASS=prod-password
 
-# Testing phase
 TEST_PORT=3001
 TEST_DB_HOST=localhost
 TEST_DB_USER=testuser
 TEST_DB_NAME=testdb
 TEST_DB_PASS=testpassword
 
-# JWT Tokens
 JWT_SECRET_KEY_DEV=devsecretkey
 JWT_SECRET_KEY_PROD=prodsecretkey
 JWT_SECRET_KEY_TEST=testsecretkey
 
-# For CORS
 ALLOWED_ORIGINS=http://example.com,http://anotherdomain.com,http://localhost:3000,http://localhost:5000,http://localhost:3001,http://localhost:4000
 
    ```
