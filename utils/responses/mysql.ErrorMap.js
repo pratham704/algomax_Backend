@@ -1,4 +1,4 @@
-const mysqlErrorMap = {
+export const mysqlErrorMap = {
     ER_DUP_ENTRY: { status: 409, message: 'Duplicate entry detected.' }, // 1062
     ER_NO_SUCH_TABLE: { status: 500, message: 'Database table not found.' }, // 1146
     ER_BAD_FIELD_ERROR: { status: 500, message: 'Invalid field in the database query.' }, // 1054

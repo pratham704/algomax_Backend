@@ -1,20 +1,22 @@
 import { verifyToken } from "../utils/auth/jwt.utils.js";
+import { success_response, fail_response } from "../utils/responses/responses.js";
 
 export const authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-        return res.status(401).json({ message: 'No token provided' });
+        return fail_response(res, 401, "No token provided")
     }
 
     const token = authHeader.split('Bearer ')[1];
     if (!token) {
-        return res.status(401).json({ message: 'Invalid token format' });
+        return fail_response(res, 401, "Invalid token format")
     }
 
     try {
         req.user = verifyToken(token);
         next();
     } catch (error) {
-        res.status(401).json({ message: error.message });
+        console.log(error.message, "From the auth.middleware.js")
+        return fail_response(res, 401, "Invalid or Expired token provided")
     }
 };

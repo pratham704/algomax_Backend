@@ -1,15 +1,16 @@
 import { getConnection } from "../../config/database.js";
-import * as pass from "../../utils/password/bcrypt.password.js";
+import * as pass from "../../utils/auth/bcrypt.password.js";
 import * as jwtFunction from "../../utils/auth/jwt.utils.js";
 import { v4 as uuidv4 } from "uuid";
+import { mysqlErrorMap } from "../../utils/responses/mysql.ErrorMap.js";
 
 export const createStudentService = async(student) => {
     const connection = await getConnection();
     try {
-        const { firstName, lastName, email, dateOfBirth, gender, password } =
-        student;
+        const { firstName, lastName, email, dateOfBirth, gender, password } = student;
         const hashedPassword = await pass.encryptPassword(password);
         const studentId = uuidv4();
+
         const [result] = await connection.execute(
             "INSERT INTO students (id, firstName, lastName, email, dateOfBirth, gender, password) VALUES (?, ?, ?, ?, ?, ?, ?)", [
                 studentId,
@@ -22,14 +23,36 @@ export const createStudentService = async(student) => {
             ]
         );
 
-        const token = jwtFunction.generateToken({ id: studentId, email, firstName });
-        return { id: studentId, firstName, lastName, email, token };
+        const token = jwtFunction.generateToken({
+            id: studentId,
+            email,
+            firstName,
+        });
+
+        const obj = {
+            id: studentId,
+            firstName,
+            lastName,
+            email,
+            token,
+        };
+
+        let status_code = 201;
+        return { status_code, obj };
     } catch (error) {
-        if (error.code === "ER_DUP_ENTRY") {
-            throw new Error("A student with this email already exists.");
-        } else {
-            throw new Error("Failed to create student: " + error.message);
+        if (!error.error_status_code && !error.error_message) {
+            console.log(error.message);
+            if (mysqlErrorMap[error.code]) {
+                const { status, message } = mysqlErrorMap[error.code];
+                error.error_status_code = status;
+                error.error_message = message;
+            } else {
+                error.error_status_code = 500;
+                error.error_message = "Something went wrong.";
+            }
         }
+
+        throw error;
     } finally {
         connection.end();
     }
@@ -38,39 +61,63 @@ export const createStudentService = async(student) => {
 
 export const loginStudentService = async(info) => {
     const connection = await getConnection();
-    const email = info.email
+    const email = info.email;
     try {
         const [rows] = await connection.execute(
-            'SELECT id, firstName, lastName, email, password FROM students WHERE email = ?', [email]
+            "SELECT id, firstName, lastName, email, password FROM students WHERE email = ?", [email]
         );
 
-        console.log(rows)
+        console.log(rows);
 
         if (rows.length === 0) {
-            throw new Error('No student found with this email.');
+            const error = new Error("No student found with this email.");
+            error.error_status_code = 404;
+            error.error_message = "Student not found";
+            throw error;
         }
 
         const student = rows[0];
-        const isPasswordValid = await pass.isPasswordCorrect(info.password, student.password);
+        const isPasswordValid = await pass.isPasswordCorrect(
+            info.password,
+            student.password
+        );
 
         if (!isPasswordValid) {
-            throw new Error('Invalid password.');
+            const error = new Error("Invalid password.");
+            error.error_status_code = 401;
+            error.error_message = "Invalid password";
+            throw error;
         }
         const token = jwtFunction.generateToken({
             id: student.id,
             email: student.email,
-            firstName: student.firstName
+            firstName: student.firstName,
         });
 
-        return {
+        const obj = {
             id: student.id,
             firstName: student.firstName,
             lastName: student.lastName,
             email: student.email,
-            token
+            token,
         };
+
+        let status_code = 200;
+        return { status_code, obj };
     } catch (error) {
-        throw new Error('Failed to login: ' + error.message);
+        if (!error.error_status_code && !error.error_message) {
+            console.log(error.message);
+            if (mysqlErrorMap[error.code]) {
+                const { status, message } = mysqlErrorMap[error.code];
+                error.error_status_code = status;
+                error.error_message = message;
+            } else {
+                error.error_status_code = 500;
+                error.error_message = "Something went wrong.";
+            }
+        }
+
+        throw error;
     } finally {
         connection.end();
     }

@@ -1,20 +1,18 @@
 import * as studentService from "../services/student.service.js";
 import * as authStudentService from "../services/auth.service/auth.service.student.js";
-
+import { success_response, fail_response } from "../utils/responses/responses.js";
 export const createStudent = async(req, res) => {
     const student = req.body;
 
     try {
-        const newStudent = await authStudentService.createStudentService(student);
-        res.status(201).json(newStudent);
+        const { status_code, obj } = await authStudentService.createStudentService(student);
+        success_response(res, status_code, obj)
+            // res.status(status_code).json(obj);
     } catch (error) {
-        if (error.message.includes("already exists")) {
-            res.status(409).json({ message: error.message });
-        } else {
-            res
-                .status(500)
-                .json({ message: "Internal server error: " + error.message });
-        }
+        console.log(error.message, "development error") //  gives me actual error in the db 
+        fail_response(res, error.error_status_code, error.error_message)
+            // res.status(error.error_status_code).json({ "message": error.error_message })
+
     }
 };
 
@@ -22,20 +20,18 @@ export const loginStudent = async(req, res) => {
     const student = req.body;
 
     try {
-        const loggedInStudent = await authStudentService.loginStudentService(
+        const { status_code, obj } = await authStudentService.loginStudentService(
             student
         );
-        res.status(200).json(loggedInStudent);
+        success_response(res, status_code, obj)
+
+        // res.status(status_code).json(obj);
     } catch (error) {
-        if (error.message.includes("already exists")) {
-            res.status(409).json({ message: error.message }); // Conflict
-        } else if (error.message.includes("Invalid credentials")) {
-            res.status(401).json({ message: "Unauthorized: " + error.message }); // Unauthorized
-        } else {
-            res
-                .status(500)
-                .json({ message: "Internal server error: " + error.message });
-        }
+        console.log(error.message, "development error")
+        fail_response(res, error.error_status_code, error.error_message)
+
+        // res.status(error.error_status_code).json({ "message": error.error_message })
+
     }
 };
 

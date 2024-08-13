@@ -1,5 +1,5 @@
 import { getConnection } from "../config/database.js";
-
+import { mysqlErrorMap } from "../utils/responses/mysql.ErrorMap.js";
 
 export const createStudentTable = async() => {
     const connection = await getConnection();
