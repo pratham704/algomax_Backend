@@ -28,7 +28,7 @@ export const createStudentTable = async() => {
     } catch (error) {
         console.error("Error creating student table:", error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -41,7 +41,7 @@ export const getAllStudents = async() => {
     } catch (error) {
         throw new Error("Failed to fetch students: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -56,7 +56,7 @@ export const getStudentById = async(id) => {
     } catch (error) {
         throw new Error("Failed to fetch student: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -72,7 +72,7 @@ export const updateStudent = async(id, student) => {
     } catch (error) {
         throw new Error("Failed to update student: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -87,6 +87,6 @@ export const deleteStudent = async(id) => {
     } catch (error) {
         throw new Error("Failed to delete student: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };

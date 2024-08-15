@@ -54,7 +54,7 @@ export const createStudentService = async(student) => {
 
         throw error;
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -119,6 +119,6 @@ export const loginStudentService = async(info) => {
 
         throw error;
     } finally {
-        connection.end();
+        connection.release();
     }
 };

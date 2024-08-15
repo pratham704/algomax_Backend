@@ -1,5 +1,5 @@
 import mysql from "mysql2/promise";
-import config from "../config/config.js"; // Adjust the path if needed
+import config from "../config/config.js";
 
 const DB_CONFIG = {
     host: config.db.host,
@@ -7,24 +7,30 @@ const DB_CONFIG = {
     database: config.db.database,
     password: config.db.password,
     port: 3306,
-
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
 };
 
+// Create a connection pool
+const pool = mysql.createPool(DB_CONFIG);
+
+let connectionCount = 0;
+
 export const getConnection = async() => {
     try {
-        // console.log(
-        //     "Attempting to connect to the database with config:",
-        //     DB_CONFIG
-        // );
-        const connection = await mysql.createConnection(DB_CONFIG);
+        console.log("Called getConnection");
+
+        connectionCount++;
+        console.log(`Connection established count: ${connectionCount}`);
+
+        const connection = await pool.getConnection();
+
+        console.log(`Connection ID: ${connection.threadId}`);
+
         return connection;
     } catch (error) {
-        console.error("Error establishing database connection:", error.message);
+        console.error("Error getting connection from pool:", error.message);
         throw error;
     }
 };
-
-getConnection();

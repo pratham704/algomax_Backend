@@ -24,7 +24,7 @@ export const createTeacherTable = async() => {
     } catch (error) {
         console.error("Error creating teacher table:", error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -37,7 +37,7 @@ export const getAllTeachers = async() => {
     } catch (error) {
         throw new Error("Failed to fetch teachers: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -52,7 +52,7 @@ export const getTeacherById = async(id) => {
     } catch (error) {
         throw new Error("Failed to fetch teacher: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -73,7 +73,7 @@ export const createTeacher = async(teacher) => {
             throw new Error("Failed to create teacher: " + error.message);
         }
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -90,7 +90,7 @@ export const updateTeacher = async(id, teacher) => {
     } catch (error) {
         throw new Error("Failed to update teacher: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
 
@@ -105,6 +105,6 @@ export const deleteTeacher = async(id) => {
     } catch (error) {
         throw new Error("Failed to delete teacher: " + error.message);
     } finally {
-        connection.end();
+        connection.release();
     }
 };
