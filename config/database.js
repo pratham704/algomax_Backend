@@ -12,21 +12,15 @@ const DB_CONFIG = {
     queueLimit: 0,
 };
 
-// Create a connection pool
 const pool = mysql.createPool(DB_CONFIG);
-
-let connectionCount = 0;
 
 export const getConnection = async() => {
     try {
-        console.log("Called getConnection");
 
-        connectionCount++;
-        console.log(`Connection established count: ${connectionCount}`);
 
         const connection = await pool.getConnection();
 
-        console.log(`Connection ID: ${connection.threadId}`);
+        // console.log(`Connection ID: ${connection.threadId}`);
 
         return connection;
     } catch (error) {
