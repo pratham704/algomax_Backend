@@ -4,6 +4,8 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import studentRoutes from "./routes/student.routes.js";
+import basicRoutes from "./Api-Basic/routes/basic.routes.js"
+
 
 dotenv.config();
 
@@ -24,8 +26,15 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// for basic routes 
 
+app.use("/api/v1/basic", basicRoutes);
+
+
+// for mysql 
 app.use("/api/v1/students", studentRoutes);
+
+
 
 
 app.get('/', (req, res) => {
