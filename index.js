@@ -32,7 +32,7 @@ app.use("/api/v1/basic", basicRoutes);
 
 
 // for mysql 
-app.use("/api/v1/students", studentRoutes);
+// app.use("/api/v1/students", studentRoutes);  uncomment  only if u add .env in the hosting provider .. 
 
 
 
