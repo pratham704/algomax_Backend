@@ -35,19 +35,16 @@ app.use("/api/v1/basic", basicRoutes);
 app.use("/api/v1/students", studentRoutes);
 
 
-
-
-app.get('/', (req, res) => {
-    res.send('Welcome to the School CRUD API');
-});
-
-// Start the server
 const port = process.env.NODE_ENV === 'production' ?
     process.env.PROD_PORT :
     process.env.NODE_ENV === 'test' ?
     process.env.TEST_PORT :
     process.env.DEV_PORT;
 
+
+app.get('/', (req, res) => {
+    res.send(`Server running on port ${port}`);
+});
 
 
 app.listen(port, () => {
