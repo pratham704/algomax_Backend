@@ -43,7 +43,7 @@ const port = process.env.NODE_ENV === 'production' ?
 
 
 app.get('/', (req, res) => {
-    res.send(`Server running on port ${port}`);
+    res.send(`Server is running in ${process.env.NODE_ENV} mode on port ${port}`);
 });
 
 
