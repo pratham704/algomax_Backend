@@ -9,6 +9,7 @@ export const generateToken = (payload) => {
 export const verifyToken = (token) => {
     try {
         return jwt.verify(token, jwtSecretKey.jwtSecret);
+
     } catch (error) {
         throw new Error('Invalid or expired token');
     }
@@ -16,6 +17,19 @@ export const verifyToken = (token) => {
 
 export const decodeToken = (token) => {
     try {
+        return jwt.decode(token);
+    } catch (error) {
+        throw new Error('Failed to decode token');
+    }
+};
+
+
+
+export const getData = (req) => {
+    try {
+
+        const authHeader = req.headers.authorization;
+        const token = authHeader.split('Bearer ')[1];
         return jwt.decode(token);
     } catch (error) {
         throw new Error('Failed to decode token');

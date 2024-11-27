@@ -5,7 +5,7 @@ import { statusMessages } from "./status.messages.js";
  * @param {Object} [data=null] - Optional data to send in the response.
  * @param {string} [message] - Optional message (default based on status code).
  */
-export const success_response = (res, statusCode = 200, data = null, message) => {
+export const success_response = (res, statusCode = 200, message, data = null, ) => {
     res.status(statusCode).json({
         success: true,
         message: message || statusMessages[statusCode] || 'Success',
