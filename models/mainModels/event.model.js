@@ -110,8 +110,22 @@ class EventModel {
         } finally {
             if (connection) await releaseConnection(connection);
         }
+
     }
 
+    static async getAllEvents() {
+        let connection;
+        try {
+            connection = await getConnection();
+            const query = `SELECT * FROM events`;
+            const [result] = await connection.execute(query);
+            return result;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (connection) await releaseConnection(connection);
+        }
+    }
 
 }
 

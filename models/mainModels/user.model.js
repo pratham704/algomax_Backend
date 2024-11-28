@@ -6,7 +6,6 @@ class UserModel {
         const connection = await getConnection();
 
         try {
-
             const query = `
           CREATE TABLE IF NOT EXISTS users (
             id CHAR(36) PRIMARY KEY,

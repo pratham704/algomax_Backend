@@ -7,7 +7,9 @@ import rateLimit from "express-rate-limit";
 import basicRoutes from "./Api-Basic/routes/basic.routes.js"
 import authRoutes from "./routes/auth.routes.js"
 import organizerRoutes from "./routes/organizer.routes.js"
-
+import { authenticate } from "./middlewares/auth.middleware.js";
+import { checkUser } from "./controllers/checkUser.controller.js";
+import userRoutes from "./routes/user.routes.js";
 dotenv.config();
 
 const app = express();
@@ -34,6 +36,8 @@ app.use(limiter);
 app.use("/api/v1/basic", basicRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/organizer", organizerRoutes);
+app.use("/api/v1/checkUser", authenticate, checkUser);
+app.use("/api/v1/user", userRoutes);
 
 // for mysql comment  only if u add .env in the hosting provider .. or else uncomment it 
 // app.use("/api/v1/students", studentRoutes);
