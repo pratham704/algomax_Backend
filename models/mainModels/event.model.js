@@ -16,7 +16,7 @@ class EventModel {
         time TIME,
         category VARCHAR(100),
         ticket_price DECIMAL(10, 2),
-        total_tickets INT,
+        c INT,
         available_tickets INT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (organizer_id) REFERENCES users(firebaseUid) ON DELETE CASCADE
@@ -126,6 +126,61 @@ class EventModel {
             if (connection) await releaseConnection(connection);
         }
     }
+
+    static async getEventById(id) {
+        let connection;
+        try {
+            connection = await getConnection();
+            const query = `SELECT * FROM events WHERE id = ?`;
+            const [result] = await connection.execute(query, [id]);
+            return result;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (connection) await releaseConnection(connection);
+        }
+    }
+
+    static async updateEventWhileBooking(id, available_tickets) {
+        if (id === undefined || available_tickets === undefined) {
+            throw new Error('Both id and available_tickets are required');
+        }
+
+        let connection;
+        try {
+            connection = await getConnection();
+            const query = `
+            UPDATE events SET available_tickets = ?
+            WHERE id = ?`;
+            const [result] = await connection.execute(query, [available_tickets, id]);
+            console.log(result, "result");
+            return result;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (connection) await releaseConnection(connection);
+        }
+    }
+
+    static async getEventsByIds(ids) {
+
+        let connection;
+        try {
+            connection = await getConnection();
+            const query = `SELECT * FROM events WHERE id IN (?)`;
+            const [result] = await connection.execute(query, [ids]);
+            return result;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (connection) await releaseConnection(connection);
+        }
+    }
+
+
+
+
+
 
 }
 

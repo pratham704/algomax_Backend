@@ -1,4 +1,5 @@
-import { getConnection } from '../../config/database.js';
+import { getConnection, releaseConnection } from '../../config/database.js';
+import EventModel from './event.model.js';
 
 class BookingModel {
     static async createTable() {
@@ -19,19 +20,47 @@ class BookingModel {
     }
 
     static async createBooking({ eventId, userId, ticketsBooked }) {
-        const connection = await getConnection();
+        console.log(eventId, userId, ticketsBooked, "eventId, userId, ticketsBooked", "createBooking in booking model");
+        this.createTable();
+
+        let connection;
+        connection = await getConnection();
         const query = `
       INSERT INTO bookings (id, event_id, user_id, tickets_booked)
       VALUES (UUID(), ?, ?, ?);
     `;
         await connection.execute(query, [eventId, userId, ticketsBooked]);
+
+        await releaseConnection(connection);
     }
 
     static async getBookingsByUser(userId) {
         const connection = await getConnection();
         const query = `SELECT * FROM bookings WHERE user_id = ?;`;
         const [rows] = await connection.execute(query, [userId]);
+
+        await releaseConnection(connection);
+
         return rows;
+    }
+
+    static async getMyTickets(userId) {
+        // get all the bookings for a user
+        const bookings = await this.getBookingsByUser(userId);
+
+
+        return {
+            bookings,
+        }
+    }
+
+    static async getMyTicketWithThatSingleEventDetails(userId, eventId) {
+        const bookings = await this.getBookingsByUser(userId);
+        const eventDetails = await EventModel.getEventById(eventId);
+        return {
+            bookings,
+            eventDetails
+        }
     }
 }
 
