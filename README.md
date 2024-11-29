@@ -30,7 +30,7 @@ Authorization: Bearer <token> (for protected routes)
 ```
 
 ### Database Schema
-![Database Schema](https://i.ibb.co/YW1K2Yq/Screenshot-2024-11-29-204809.png)
+![Database Schema](https://i.ibb.co/WvWzDYp/Whats-App-Image-2024-11-29-at-20-52-29-4c726fe8.jpg)
 
 ## Authentication
 
