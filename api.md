@@ -1,6 +1,34 @@
 # API Documentation
 
-## Authentication Endpoints
+## Table of Contents
+1. [Overview](#overview)
+2. [Authentication](#authentication)
+3. [User Verification](#user-verification)
+4. [User Endpoints](#user-endpoints)
+5. [Organizer Endpoints](#organizer-endpoints)
+6. [Payment Integration](#payment-integration)
+7. [Security](#security)
+
+## Overview
+
+Base URL: `/api/v1`
+
+### Global Headers
+```
+Content-Type: application/json
+Authorization: Bearer <token> (for protected routes)
+```
+
+### Standard Response Format
+```json
+{
+  "status": "success|fail",
+  "message": "string",
+  "data": {} | []
+}
+```
+
+## Authentication
 
 ### Register User
 - **URL:** `/api/v1/auth/register`
@@ -86,7 +114,6 @@
 - **URL:** `/api/v1/checkUser`
 - **Method:** `GET`
 - **Authentication:** Required
-- **Description:** Verifies if a user's token is valid and returns user data
 - **Success Response:**
   - **Code:** 200
   - **Content:**
@@ -101,172 +128,141 @@
       }
     }
     ```
-- **Error Response:**
-  - **Code:** 500
-    ```json
-    {
-      "status": "fail",
-      "message": "Error message"
-    }
-    ```
-- **Usage:** 
-  - Used to verify token validity
-  - Can be used for session management
-  - Helpful for client-side authentication state
 
-## Authentication Middleware
+## User Endpoints
 
-The API uses JWT (JSON Web Token) based authentication. Protected routes require a valid JWT token in the Authorization header.
+### Get All Events
+- **URL:** `/api/v1/user/events`
+- **Method:** `GET`
+- **Authentication:** Required
+- **Success Response:**
+  - **Code:** 200
+  - **Content:** Array of events
 
-### Token Format
+### Get Event by ID
+- **URL:** `/api/v1/user/events/:id`
+- **Method:** `GET`
+- **Authentication:** Required
+- **Success Response:**
+  - **Code:** 200
+  - **Content:** Single event details
+
+### Book Event
+- **URL:** `/api/v1/user/book`
+- **Method:** `POST`
+- **Authentication:** Required
+- **Request Body:**
+  ```json
+  {
+    "organizer_id": "string",
+    "event_id": "string",
+    "number_of_tickets": "number",
+    "amount": "number"
+  }
+  ```
+
+### Get My Tickets
+- **URL:** `/api/v1/user/my-tickets`
+- **Method:** `GET`
+- **Authentication:** Required
+
+### Get Single Ticket Details
+- **URL:** `/api/v1/user/my-tickets/:id`
+- **Method:** `GET`
+- **Authentication:** Required
 
 ## Organizer Endpoints
 
 ### Create Event
 - **URL:** `/api/v1/organizer/events`
 - **Method:** `POST`
-- **Authentication:** Required
 - **Role:** Organizer
 - **Request Body:**
   ```json
   {
-    "title": "string (required)",
-    "description": "string (required)",
-    "location": "string (required)",
-    "date": "string (required)",
-    "time": "string (required)",
-    "category": "string (required)",
-    "ticket_price": "number (required)",
-    "total_tickets": "number (required)",
+    "title": "string",
+    "description": "string",
+    "location": "string",
+    "date": "string",
+    "time": "string",
+    "category": "string",
+    "ticket_price": "number",
+    "total_tickets": "number",
     "image": "string (optional)"
   }
   ```
-- **Success Response:**
-  - **Code:** 201
-  - **Content:**
-    ```json
-    {
-      "status": "success",
-      "message": "Event created successfully"
-    }
-    ```
-- **Error Response:**
-  - **Code:** 400
-    ```json
-    {
-      "status": "fail",
-      "message": "Validation error details"
-    }
-    ```
 
 ### Get Organizer's Events
 - **URL:** `/api/v1/organizer/events`
 - **Method:** `GET`
-- **Authentication:** Required
 - **Role:** Organizer
-- **Success Response:**
-  - **Code:** 200
-  - **Content:**
-    ```json
-    {
-      "status": "success",
-      "message": "Events fetched successfully",
-      "data": [
-        // Array of organizer's events
-      ]
-    }
-    ```
 
 ### Get Single Event
 - **URL:** `/api/v1/organizer/event`
 - **Method:** `GET`
-- **Authentication:** Required
 - **Role:** Organizer
-- **Query Parameters:** `eventId=[string]`
-- **Success Response:**
-  - **Code:** 200
-  - **Content:**
-    ```json
-    {
-      "status": "success",
-      "message": "Event fetched successfully",
-      "data": {
-        // Event details
-      }
-    }
-    ```
-- **Error Response:**
-  - **Code:** 400
-    ```json
-    {
-      "status": "fail",
-      "message": "Event ID is required"
-    }
-    ```
+- **Query:** `eventId=string`
 
 ### Update Event
 - **URL:** `/api/v1/organizer/events`
 - **Method:** `PUT`
-- **Authentication:** Required
 - **Role:** Organizer
 - **Request Body:**
   ```json
   {
-    "eventId": "string (required)",
+    "eventId": "string",
     "title": "string (optional)",
     "description": "string (optional)",
-    "location": "string (optional)",
-    "date": "string (optional)",
-    "time": "string (optional)",
-    "category": "string (optional)",
-    "ticket_price": "number (optional)",
-    "total_tickets": "number (optional)",
-    "image": "string (optional)"
+    // ... other optional fields
   }
   ```
-- **Success Response:**
-  - **Code:** 200
-  - **Content:**
-    ```json
-    {
-      "status": "success",
-      "message": "Event updated successfully",
-      "data": {
-        // Updated event details
-      }
-    }
-    ```
-- **Error Response:**
-  - **Code:** 400
-    ```json
-    {
-      "status": "fail",
-      "message": "Event ID is required"
-    }
-    ```
 
-## Role-Based Access Control
+## Payment Integration
 
-### Organizer Role
-- Only users with the "organizer" role can access organizer endpoints
-- Role verification is handled by the `AuthenticateOrganizer` middleware
-- Organizers can:
-  - Create events
-  - View their events
-  - Update their events
-  - Get details of specific events they created
+### Create Payment Order
+- **URL:** `/api/v1/user/create-order/:id`
+- **Method:** `POST`
+- **Authentication:** Required
+- **Provider:** Cashfree Payment Gateway
 
-### Error Handling
-All endpoints include standardized error handling:
-- 400: Bad Request (validation errors)
-- 401: Unauthorized (authentication errors)
-- 403: Forbidden (insufficient permissions)
+### Verify Payment Order
+- **URL:** `/api/v1/user/verify-order`
+- **Method:** `POST`
+- **Authentication:** Required
+- **Request Body:**
+  ```json
+  {
+    "orderId": "string"
+  }
+  ```
+
+## Security
+
+### Authentication Middleware
+- JWT-based authentication
+- Token format: `Bearer <token>`
+- Token validation on protected routes
+
+### Role-Based Access Control
+- Organizer role verification
+- Protected routes for specific roles
+- Role-specific endpoints
+
+### Rate Limiting
+- Window: 15 minutes
+- Max Requests: 100 per window
+
+### Additional Security Measures
+- Helmet.js for security headers
+- CORS protection
+- Input validation
+- Error handling
+
+### Error Codes
+- 400: Bad Request
+- 401: Unauthorized
+- 403: Forbidden
+- 404: Not Found
 - 500: Internal Server Error
-
-### Data Validation
-- Event data is validated before processing
-- Price values are parsed as floats
-- Ticket quantities are parsed as integers
-- Required fields are checked before creation/updates
 
 
