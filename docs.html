@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+         :root {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --code-bg: #2d2d2d;
+            --border-color: #404040;
+            --header-bg: #2d2d2d;
+            --link-color: #66b3ff;
+            --sidebar-width: 280px;
+        }
+        
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --code-bg: #f5f5f5;
+            --border-color: #e0e0e0;
+            --header-bg: #f8f9fa;
+            --link-color: #0066cc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            background: var(--header-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            background: var(--bg-color);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar h2 {
+            margin-bottom: 1.5em;
+            padding-bottom: 0.5em;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            margin: 0.5em 0;
+        }
+        
+        .sidebar ul ul {
+            margin-left: 1.2em;
+            border-left: 2px solid var(--border-color);
+            padding-left: 1em;
+        }
+        
+        .sidebar a {
+            color: var(--link-color);
+            text-decoration: none;
+            display: block;
+            padding: 8px 0;
+            font-size: 0.95em;
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar a:hover {
+            text-decoration: none;
+            padding-left: 5px;
+            background: var(--code-bg);
+            border-radius: 4px;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 40px;
+            margin-left: var(--sidebar-width);
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4 {
+            margin: 1.5em 0 0.5em;
+            color: var(--text-color);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            font-size: 2em;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.3em;
+        }
+        
+        h3 {
+            font-size: 1.5em;
+        }
+        
+        h4 {
+            font-size: 1.2em;
+        }
+        
+        p {
+            margin: 1em 0;
+        }
+        
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+        
+        code {
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        
+        th {
+            background: var(--header-bg);
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .get {
+            background: #61affe;
+            color: white;
+        }
+        
+        .post {
+            background: #49cc90;
+            color: white;
+        }
+        
+        .put {
+            background: #fca130;
+            color: white;
+        }
+        
+        .delete {
+            background: #f93e3e;
+            color: white;
+        }
+        
+        .endpoint {
+            margin: 2em 0;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+        }
+        
+        .endpoint h3 {
+            margin-top: 0;
+        }
+        
+        .response-block {
+            margin: 1em 0;
+        }
+        
+        .response-block h4 {
+            color: #49cc90;
+        }
+        
+        .error-block h4 {
+            color: #f93e3e;
+        }
+        
+        ul {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                z-index: 100;
+            }
+            .content {
+                margin-left: 0;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            #mobile-menu {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1000;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button id="theme-toggle">🌙 Toggle Dark Mode</button>
+    <button id="mobile-menu" style="display: none;">☰ Menu</button>
+
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#overview">Overview</a>
+                    <ul>
+                        <li><a href="#global-headers">Global Headers</a></li>
+                        <li><a href="#standard-response">Standard Response Format</a></li>
+                        <li><a href="#database-schema">Database Schema</a></li>
+                    </ul>
+                </li>
+                <li><a href="#authentication">Authentication</a>
+                    <ul>
+                        <li><a href="#register">Register User</a></li>
+                        <li><a href="#login">Login User</a></li>
+                    </ul>
+                </li>
+                <li><a href="#user-verification">User Verification</a></li>
+                <li><a href="#user-endpoints">User Endpoints</a>
+                    <ul>
+                        <li><a href="#get-all-events">Get All Events</a></li>
+                        <li><a href="#get-event">Get Event by ID</a></li>
+                        <li><a href="#book-event">Book Event</a></li>
+                        <li><a href="#get-tickets">Get My Tickets</a></li>
+                        <li><a href="#get-ticket">Get Single Ticket</a></li>
+                    </ul>
+                </li>
+                <li><a href="#organizer-endpoints">Organizer Endpoints</a>
+                    <ul>
+                        <li><a href="#create-event">Create Event</a></li>
+                        <li><a href="#get-organizer-events">Get Organizer's Events</a></li>
+                        <li><a href="#get-single-event">Get Single Event</a></li>
+                        <li><a href="#update-event">Update Event</a></li>
+                    </ul>
+                </li>
+                <li><a href="#payment-integration">Payment Integration</a>
+                    <ul>
+                        <li><a href="#create-payment">Create Payment Order</a></li>
+                        <li><a href="#verify-payment">Verify Payment Order</a></li>
+                    </ul>
+                </li>
+                <li><a href="#security">Security</a>
+                    <ul>
+                        <li><a href="#auth-middleware">Authentication Middleware</a></li>
+                        <li><a href="#rbac">Role-Based Access Control</a></li>
+                        <li><a href="#rate-limiting">Rate Limiting</a></li>
+                        <li><a href="#error-codes">Error Codes</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <h1>API Documentation</h1>
+
+            <section id="overview">
+                <h2>Overview</h2>
+                <p>Base URL: <code>/api/v1</code></p>
+
+                <h3 id="global-headers">Global Headers</h3>
+                <pre>
+Content-Type: application/json
+Authorization: Bearer &lt;token&gt; (for protected routes)</pre>
+
+                <h3 id="standard-response">Standard Response Format</h3>
+                <pre>
+{
+  "status": "success|fail",
+  "message": "string",
+  "data": {} | []
+}</pre>
+
+                <h3 id="database-schema">Database Schema</h3>
+                <p>Please view the schema <a href="https://i.ibb.co/WvWzDYp/Whats-App-Image-2024-11-29-at-20-52-29-4c726fe8.jpg" target="_blank"> here</a>.</p>
+            </section>
+
+            <section id="authentication">
+                <h2>Authentication</h2>
+
+                <div id="register" class="endpoint">
+                    <h3>Register User</h3>
+                    <p><span class="method post">POST</span> <code>/api/v1/auth/register</code></p>
+                    <h4>Request Body:</h4>
+                    <pre>
+{
+  "firebaseUid": "string (required)",
+  "name": "string (required)",
+  "email": "string (required)",
+  "role": "string (required)"
+}</pre>
+
+                    <div class="response-block">
+                        <h4>Success Response (201):</h4>
+                        <pre>
+{
+  "status": "success",
+  "message": "User created successfully.",
+  "data": {
+    "user": {
+      // user details
+    },
+    "token": "JWT_TOKEN"
+  }
+}</pre>
+                    </div>
+
+                    <div class="error-block">
+                        <h4>Error Responses:</h4>
+                        <pre>
+// 400 Bad Request
+{
+  "status": "fail",
+  "message": "All fields are required."
+}
+
+// 400 Bad Request
+{
+  "status": "fail",
+  "message": "User already exists."
+}</pre>
+                    </div>
+                </div>
+
+                <div id="login" class="endpoint">
+                    <h3>Login User</h3>
+                    <p><span class="method post">POST</span> <code>/api/v1/auth/login</code></p>
+                    <h4>Request Body:</h4>
+                    <pre>
+{
+  "firebaseUid": "string (required)"
+}</pre>
+
+                    <div class="response-block">
+                        <h4>Success Response (200):</h4>
+                        <pre>
+{
+  "status": "success",
+  "message": "Login successful.",
+  "data": {
+    "user": {
+      // user details
+    },
+    "token": "JWT_TOKEN"
+  }
+}</pre>
+                    </div>
+
+                    <div class="error-block">
+                        <h4>Error Response (404):</h4>
+                        <pre>
+{
+  "status": "fail",
+  "message": "User not found."
+}</pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="user-verification">
+                <h2>User Verification</h2>
+
+                <div class="endpoint">
+                    <h3>Check User Authentication</h3>
+                    <p><span class="method get">GET</span> <code>/api/v1/checkUser</code></p>
+
+                    <div class="response-block">
+                        <h4>Success Response (200):</h4>
+                        <pre>
+{
+  "status": "success",
+  "message": "User is authenticated",
+  "data": {
+    "firebaseUid": "string",
+    "role": "string",
+    "email": "string"
+  }
+}</pre>
+                    </div>
+                </div>
+            </section>
+
+            <section id="user-endpoints">
+                <h2>User Endpoints</h2>
+
+                <div id="get-all-events" class="endpoint">
+                    <h3>Get All Events</h3>
+                    <p><span class="method get">GET</span> <code>/api/v1/user/events</code></p>
+                    <p>Returns an array of all available events.</p>
+                </div>
+
+                <div id="get-event" class="endpoint">
+                    <h3>Get Event by ID</h3>
+                    <p><span class="method get">GET</span> <code>/api/v1/user/events/:id</code></p>
+                    <p>Returns details for a specific event.</p>
+                </div>
+
+                <div id="book-event" class="endpoint">
+                    <h3>Book Event</h3>
+                    <p><span class="method post">POST</span> <code>/api/v1/user/book</code></p>
+                    <h4>Request Body:</h4>
+                    <pre>
+{
+  "organizer_id": "string",
+  "event_id": "string",
+  "number_of_tickets": "number",
+  "amount": "number"
+}</pre>
+                </div>
+
+                <div id="get-tickets" class="endpoint">
+                    <h3>Get My Tickets</h3>
+                    <p><span class="method get">GET</span> <code>/api/v1/user/my-tickets</code></p>
+                    <p>Returns all tickets for the authenticated user.</p>
+                </div>
+
+                <div id="get-ticket" class="endpoint">
+                    <h3>Get Single Ticket Details</h3>
+                    <p><span class="method get">GET</span> <code>/api/v1/user/my-tickets/:id</code></p>
+                    <p>Returns details for a specific ticket.</p>
+                </div>
+            </section>
+
+            <section id="organizer-endpoints">
+                <h2>Organizer Endpoints</h2>
+
+                <div id="create-event" class="endpoint">
+                    <h3>Create Event</h3>
+                    <p><span class="method post">POST</span> <code>/api/v1/organizer/events</code></p>
+                    <h4>Request Body:</h4>
+                    <pre>
+{
+  "title": "string",
+  "description": "string",
+  "location": "string",
+  "date": "string",
+  "time": "string",
+  "category": "string",
+  "ticket_price": "number",
+  "total_tickets": "number",
+  "image": "string (optional)"
+}</pre>
+                </div>
+
+                <div id="get-organizer-events" class="endpoint">
+                    <h3>Get Organizer's Events</h3>
+                    <p><span class="method get">GET</span> <code>/api/v1/organizer/events</code></p>
+                    <p>Returns all events created by the authenticated organizer.</p>
+                </div>
+
+                <div id="get-single-event" class="endpoint">
+                    <h3>Get Single Event</h3>
+                    <p><span class="method get">GET</span> <code>/api/v1/organizer/event</code></p>
+                    <p>Query Parameter: <code>eventId=string</code></p>
+                </div>
+
+                <div id="update-event" class="endpoint">
+                    <h3>Update Event</h3>
+                    <p><span class="method put">PUT</span> <code>/api/v1/organizer/events</code></p>
+                    <h4>Request Body:</h4>
+                    <pre>
+{
+  "eventId": "string",
+  "title": "string (optional)",
+  "description": "string (optional)",
+  "location": "string (optional)",
+  "date": "string (optional)",
+  "time": "string (optional)",
+  "category": "string (optional)",
+  "ticket_price": "number (optional)",
+  "total_tickets": "number (optional)",
+  "image": "string (optional)"
+}</pre>
+                </div>
+            </section>
+
+            <section id="payment-integration">
+                <h2>Payment Integration</h2>
+
+                <div id="create-payment" class="endpoint">
+                    <h3>Create Payment Order</h3>
+                    <p><span class="method post">POST</span> <code>/api/v1/user/create-order/:id</code></p>
+                    <p>Provider: Cashfree Payment Gateway</p>
+                </div>
+
+                <div id="verify-payment" class="endpoint">
+                    <h3>Verify Payment Order</h3>
+                    <p><span class="method post">POST</span> <code>/api/v1/user/verify-order</code></p>
+                    <h4>Request Body:</h4>
+                    <pre>
+{
+  "orderId": "string"
+}</pre>
+                </div>
+            </section>
+
+            <section id="security">
+                <h2>Security</h2>
+
+                <div id="auth-middleware" class="endpoint">
+                    <h3>Authentication Middleware</h3>
+                    <ul>
+                        <li>JWT-based authentication</li>
+                        <li>Token format: <code>Bearer &lt;token&gt;</code></li>
+                        <li>Token validation on protected routes</li>
+                    </ul>
+                </div>
+
+                <div id="rbac" class="endpoint">
+                    <h3>Role-Based Access Control</h3>
+                    <ul>
+                        <li>Organizer role verification</li>
+                        <li>Protected routes for specific roles</li>
+                        <li>Role-specific endpoints</li>
+                    </ul>
+                </div>
+
+                <div id="rate-limiting" class="endpoint">
+                    <h3>Rate Limiting</h3>
+                    <ul>
+                        <li>Window: 15 minutes</li>
+                        <li>Max Requests: 100 per window</li>
+                    </ul>
+                </div>
+
+                <div class="endpoint">
+                    <h3>Additional Security Measures</h3>
+                    <ul>
+                        <li>Helmet.js for security headers</li>
+                        <li>CORS protection</li>
+                        <li>Input validation</li>
+                        <li>Error handling</li>
+                    </ul>
+                </div>
+
+                <div id="error-codes" class="endpoint">
+                    <h3>Error Codes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>400</td>
+                                <td>Bad Request</td>
+                            </tr>
+                            <tr>
+                                <td>401</td>
+                                <td>Unauthorized</td>
+                            </tr>
+                            <tr>
+                                <td>403</td>
+                                <td>Forbidden</td>
+                            </tr>
+                            <tr>
+                                <td>404</td>
+                                <td>Not Found</td>
+                            </tr>
+                            <tr>
+                                <td>500</td>
+                                <td>Internal Server Error</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.documentElement;
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sidebar = document.querySelector('.sidebar');
+
+        // Always start with dark theme
+        if (!localStorage.getItem('theme')) {
+            localStorage.setItem('theme', 'dark');
+            body.setAttribute('data-theme', 'dark');
+        } else {
+            // Restore saved theme
+            const savedTheme = localStorage.getItem('theme');
+            body.setAttribute('data-theme', savedTheme);
+        }
+
+        // Update button text initially
+        updateToggleButton();
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleButton();
+        });
+
+        function updateToggleButton() {
+            const currentTheme = body.getAttribute('data-theme');
+            themeToggle.textContent = currentTheme === 'light' ? '🌙 Toggle Dark Mode' : '☀️ Toggle Light Mode';
+        }
+
+        // Mobile menu functionality
+        mobileMenu.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking links on mobile
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                mobileMenu.style.display = 'none';
+                sidebar.classList.remove('active');
+            } else {
+                mobileMenu.style.display = 'block';
+            }
+        });
+
+        // Initial mobile check
+        if (window.innerWidth <= 768) {
+            mobileMenu.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

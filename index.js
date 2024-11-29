@@ -10,6 +10,10 @@ import organizerRoutes from "./routes/organizer.routes.js"
 import { authenticate } from "./middlewares/auth.middleware.js";
 import { checkUser } from "./controllers/checkUser.controller.js";
 import userRoutes from "./routes/user.routes.js";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from 'path';
+
 dotenv.config();
 
 const app = express();
@@ -38,6 +42,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/organizer", organizerRoutes);
 app.use("/api/v1/checkUser", authenticate, checkUser);
 app.use("/api/v1/user", userRoutes);
+app.use("/docs", express.static("docs.html"));
 
 // for mysql comment  only if u add .env in the hosting provider .. or else uncomment it 
 // app.use("/api/v1/students", studentRoutes);
@@ -49,9 +54,13 @@ const port = process.env.NODE_ENV === 'production' ?
     process.env.TEST_PORT :
     process.env.DEV_PORT;
 
+// Get the equivalent of __dirname
+const __filename = fileURLToPath(
+    import.meta.url);
+const __dirname = dirname(__filename);
 
 app.get('/', (req, res) => {
-    res.send(`Server is running in ${process.env.NODE_ENV} mode on port ${port}`);
+    res.sendFile(path.join(__dirname, "docs.html"));
 });
 
 
