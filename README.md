@@ -1,6 +1,7 @@
 # API Documentation
 
 ## Table of Contents
+
 1. [Overview](#overview)
 2. [Authentication](#authentication)
 3. [User Verification](#user-verification)
@@ -27,6 +28,9 @@ Authorization: Bearer <token> (for protected routes)
   "data": {} | []
 }
 ```
+
+### Database Schema
+![Database Schema](https://i.ibb.co/YW1K2Yq/Screenshot-2024-11-29-204809.png)
 
 ## Authentication
 
